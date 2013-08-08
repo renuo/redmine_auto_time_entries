@@ -1,5 +1,7 @@
 class RedmineAdapter
+  AUTO_TIME_ENTRIES_TICKET = 916
+
   def time_entries_to_assign
-    TimeEntry.where ticket_id: 916
+    TimeEntry.where(issue_id: RedmineAdapter::AUTO_TIME_ENTRIES_TICKET)
   end
 end

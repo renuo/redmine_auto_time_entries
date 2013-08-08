@@ -32,6 +32,16 @@ describe 'Assigner' do
     a.comment.should == 'Foo bar foo bar'
   end
 
+  it 'should assign comment with activity 1' do
+    a = Assigner.new '92345678: 742 Foo bar foo bar : Entwicklung'
+    a.comment.should == 'Foo bar foo bar'
+  end
+
+  it 'should assign comment with activity 2' do
+    a = Assigner.new '92345678: 742 Foo bar foo bar: something important : Entwicklung'
+    a.comment.should == 'Foo bar foo bar: something important'
+  end
+
   it 'should be valid if toggle_id is present' do
     a = Assigner.new '92345678: 742 Foo bar foo bar'
     a.valid?.should == true
@@ -45,5 +55,30 @@ describe 'Assigner' do
   it 'should be invalid if toggle_id is missing 2' do
     a = Assigner.new 'Foo bar foo bar'
     a.valid?.should == false
+  end
+
+  it 'should be assignable if a ticket id can be found' do
+    a = Assigner.new '92345678: 777 Foo bar foo bar'
+    a.assignable?.should == true
+  end
+
+  it 'should not be assignable if a ticket id cannot be found' do
+    a = Assigner.new '92345678: Foo bar foo bar'
+    a.assignable?.should == false
+  end
+
+  it 'should filter an activity' do
+    a = Assigner.new '92345678: Foo bar foo bar : Entwicklung'
+    a.activity.should == 'Entwicklung'
+  end
+
+  it 'should filter an activity with complicated comment' do
+    a = Assigner.new '92345678: Foo bar foo bar : something important : Entwicklung'
+    a.activity.should == 'Entwicklung'
+  end
+
+  it 'should leave activity empty unless activity is given' do
+    a = Assigner.new '92345678: Foo bar foo bar'
+    a.activity.should == nil
   end
 end
