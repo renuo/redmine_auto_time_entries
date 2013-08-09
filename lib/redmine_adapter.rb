@@ -6,6 +6,10 @@ class RedmineAdapter
   end
 
   def id_for_activity_name name
-    Activity.where(name: name).first
+    if @mapping.nil?
+      @mapping = {}
+      TimeEntryActivity.where(project_id: nil).each { |t| @mapping[t.name] = t.id }
+    end
+    @mapping[name]
   end
 end

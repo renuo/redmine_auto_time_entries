@@ -17,6 +17,7 @@ describe 'Splitter' do
     e.issue_id.should == 916
     e.comments.should == "Bla bla bla"
     e.activity_id.should == 77
+    e.saved?.should == false
   end
 
   it 'should not assign unassignable entries' do
@@ -28,6 +29,7 @@ describe 'Splitter' do
     e.issue_id.should == 916
     e.comments.should == "3242134: Bla bla bla"
     e.activity_id.should == 77
+    e.saved?.should == false
   end
 
   it 'should assign valid time entries 1' do
@@ -39,6 +41,7 @@ describe 'Splitter' do
     e.issue_id.should == 777
     e.comments.should == "3242134: Bla bla bla"
     e.activity_id.should == 77
+    e.saved?.should == true
   end
 
   it 'should map the activity' do
@@ -49,6 +52,7 @@ describe 'Splitter' do
     e.issue_id.should == 777
     e.comments.should == "3242134: Bla bla bla"
     e.activity_id.should == 999
+    e.saved?.should == true
   end
 
   it 'should not map an invalid activity' do
@@ -58,5 +62,6 @@ describe 'Splitter' do
     e.issue_id.should == 777
     e.comments.should == "3242134: Bla bla bla: Nanana"
     e.activity_id.should == 77
+    e.saved?.should == true
   end
 end

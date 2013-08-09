@@ -17,8 +17,10 @@ class Splitter
 
   def reassign_time_entry(time_entry, assigner)
     logger.info("Reassigning time entry #{time_entry.id}: #{time_entry.inspect} with #{assigner.inspect}")
+
     activity_id = activity_id_for_name(assigner.activity)
-    logger.info("No activity found for #{time_entry.id}")
+    logger.info("No activity found for #{time_entry.id}") if activity_id.nil?
+
     time_entry.issue_id = assigner.issue_id
     time_entry.comments = "#{assigner.toggle_id}: #{assigner.comment}"
     if activity_id.nil?
@@ -26,6 +28,8 @@ class Splitter
     else
       time_entry.activity_id = activity_id
     end
+    time_entry.save!
+
     logger.info("Done #{time_entry.id}: #{time_entry.inspect}")
   end
 
