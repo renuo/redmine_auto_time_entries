@@ -8,22 +8,22 @@ describe 'Assigner' do
 
   it 'should assign ticket 1' do
     a = Assigner.new '92345678: 741 Bla bla bla'
-    a.ticket_id.should == 741
+    a.issue_id.should == 741
   end
 
   it 'should assign ticket 2' do
     a = Assigner.new '92345678: 742'
-    a.ticket_id.should == 742
+    a.issue_id.should == 742
   end
 
   it 'should not assign ticket if nil' do
     a = Assigner.new '92345678: Foo bar foo bar'
-    a.ticket_id.should == nil
+    a.issue_id.should == nil
   end
 
   it 'should assign comment without ticket' do
     a = Assigner.new '92345678: Foo bar foo bar'
-    a.ticket_id.should == nil
+    a.issue_id.should == nil
     a.comment.should == 'Foo bar foo bar'
   end
 

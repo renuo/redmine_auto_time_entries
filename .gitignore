@@ -20,3 +20,4 @@ doc/
 .idea
 Gemfile.lock
 
+log/log.log
