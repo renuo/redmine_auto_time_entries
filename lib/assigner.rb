@@ -12,11 +12,6 @@ class Assigner
     check_special_case(special_case_mapper)
   end
 
-  def issue_id
-    raise NoMethodError.new if multiple_issues?
-    issue_ids.first
-  end
-
   def check_special_case(mapper)
     return unless valid?
     return if assignable?
@@ -64,9 +59,5 @@ class Assigner
 
   def assignable?
     !issue_ids.empty?
-  end
-
-  def multiple_issues?
-    issue_ids.count >= 2
   end
 end

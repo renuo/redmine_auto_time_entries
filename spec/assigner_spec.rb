@@ -8,24 +8,24 @@ describe 'Assigner' do
 
   it 'should assign ticket 1' do
     a = Assigner.new '92345678: 741 Bla bla bla'
-    a.issue_id.should == 741
-    a.multiple_issues?.should == false
+    a.issue_ids.first.should == 741
+    a.issue_ids.count.should == 1
   end
 
   it 'should assign ticket 2' do
     a = Assigner.new '92345678: 742'
-    a.issue_id.should == 742
-    a.multiple_issues?.should == false
+    a.issue_ids.first.should == 742
+    a.issue_ids.count.should == 1
   end
 
   it 'should not assign ticket if nil' do
     a = Assigner.new '92345678: Foo bar foo bar'
-    a.issue_id.should == nil
+    a.issue_ids.first.should == nil
   end
 
   it 'should assign comment without ticket' do
     a = Assigner.new '92345678: Foo bar foo bar'
-    a.issue_id.should == nil
+    a.issue_ids.first.should == nil
     a.comment.should == 'Foo bar foo bar'
   end
 
@@ -101,13 +101,13 @@ describe 'Assigner' do
 
   it 'should distribute multiple issue ids given' do
     a = Assigner.new '92345678: d 77 33 22 Foo bar foo bar'
-    a.multiple_issues?.should == true
+    a.issue_ids.count.should == 3
     a.issue_ids.should == [77, 33, 22]
   end
 
   it 'should raise an exception if accessing issue_id when multiple ids are set given' do
     a = Assigner.new '92345678: d 77 33 22 Foo bar foo bar'
-    a.multiple_issues?.should == true
+    a.issue_ids.count.should == 3
     expect { a.issue_id }.to raise_error(NoMethodError)
   end
 end

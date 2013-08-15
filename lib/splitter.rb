@@ -21,19 +21,32 @@ class Splitter
     activity_id = activity_id_for_name(assigner.activity)
     logger.info("No activity found for #{time_entry.id}") if activity_id.nil?
 
-    time_entry.issue_id = assigner.issue_id
+    time_entry.issue_id = assigner.issue_ids.first
     time_entry.comments = "#{assigner.toggle_id}: #{assigner.comment}"
+    set_activity(activity_id, assigner, time_entry)
+    time_entry.hours = time_entry.hours / assigner.issue_ids.count
+    time_entry.save!
+    logger.info("Reassigned: #{time_entry.id}: #{time_entry.inspect}")
+
+    assigner.issue_ids.drop(1).each do |current_issue_id|
+      new_time_entry = redmine_adapter.duplicate_time_entry(time_entry)
+      new_time_entry.issue_id = current_issue_id
+      new_time_entry.save!
+      logger.info("Created: #{new_time_entry.id}: #{new_time_entry.inspect}")
+    end
+
+    logger.info("---")
+  end
+
+  def set_activity(activity_id, assigner, time_entry)
     if activity_id.nil?
       time_entry.comments += ": #{assigner.activity}" unless assigner.activity.nil?
     else
       time_entry.activity_id = activity_id
     end
-    time_entry.save!
-
-    logger.info("Done #{time_entry.id}: #{time_entry.inspect}")
   end
 
   def activity_id_for_name activity_name
-     redmine_adapter.id_for_activity_name(activity_name)
+    redmine_adapter.id_for_activity_name(activity_name)
   end
 end

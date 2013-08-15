@@ -12,4 +12,8 @@ class RedmineAdapter
     end
     @mapping[name]
   end
+
+  def duplicate_time_entry time_entry
+    time_entry.dup
+  end
 end
