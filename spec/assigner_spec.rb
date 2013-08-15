@@ -9,11 +9,13 @@ describe 'Assigner' do
   it 'should assign ticket 1' do
     a = Assigner.new '92345678: 741 Bla bla bla'
     a.issue_id.should == 741
+    a.multiple_issues?.should == false
   end
 
   it 'should assign ticket 2' do
     a = Assigner.new '92345678: 742'
     a.issue_id.should == 742
+    a.multiple_issues?.should == false
   end
 
   it 'should not assign ticket if nil' do
@@ -30,6 +32,21 @@ describe 'Assigner' do
   it 'should assign comment with ticket' do
     a = Assigner.new '92345678: 742 Foo bar foo bar'
     a.comment.should == 'Foo bar foo bar'
+  end
+
+  it 'should assign comment with multiple tickets fake' do
+    a = Assigner.new '92345678: 742 333 222 421 Foo bar foo bar'
+    a.comment.should == '333 222 421 Foo bar foo bar'
+  end
+
+  it 'should assign comment with multiple tickets' do
+    a = Assigner.new '92345678: d 742 333 222 421 Foo bar foo bar'
+    a.comment.should == 'Foo bar foo bar'
+  end
+
+  it 'should assign comment with multiple tickets' do
+    a = Assigner.new '92345678: d 742 333 222 421Foo bar foo bar'
+    a.comment.should == '421Foo bar foo bar'
   end
 
   it 'should assign comment with activity 1' do
@@ -80,5 +97,17 @@ describe 'Assigner' do
   it 'should leave activity empty unless activity is given' do
     a = Assigner.new '92345678: Foo bar foo bar'
     a.activity.should == nil
+  end
+
+  it 'should distribute multiple issue ids given' do
+    a = Assigner.new '92345678: d 77 33 22 Foo bar foo bar'
+    a.multiple_issues?.should == true
+    a.issue_ids.should == [77, 33, 22]
+  end
+
+  it 'should raise an exception if accessing issue_id when multiple ids are set given' do
+    a = Assigner.new '92345678: d 77 33 22 Foo bar foo bar'
+    a.multiple_issues?.should == true
+    expect { a.issue_id }.to raise_error(NoMethodError)
   end
 end
