@@ -1,8 +1,12 @@
 class SpecialCaseMapper
   def map!(assigner)
-    if assigner.comment.downcase.start_with?('internal weekly meeting')
-      assigner.issue_id = 965
+    s = assigner.comment.downcase
+    if s.start_with?('internal weekly meeting') || s.star_with?('Weekly Meeting')
+      assigner.issue_id = 1117
       assigner.activity = "Meetings"
+    elsif s.start_with?('internal entwicklung bills')
+      assigner.issue_id = 831
+      assigner.activity = "Entwicklung"
     end
   end
 end
