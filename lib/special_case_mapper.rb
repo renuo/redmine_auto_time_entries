@@ -10,9 +10,6 @@ class SpecialCaseMapper
     elsif s.start_with?('internal entwicklung bills')
       assigner.issue_ids << 831
       assigner.activity = "Entwicklung"
-    elsif s.include?("agricircle")
-      assigner.issue_ids << 1545
-      assigner.activity = "Entwicklung"
     end
   end
 end
