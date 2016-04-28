@@ -10,12 +10,12 @@ class SpecialCaseMapper
     elsif s.start_with?('internal entwicklung bills')
       assigner.issue_ids << 831
       assigner.activity = "Entwicklung"
-    elsif s.start_with?('griffin review') || s.start_with?('griffin retro')
-      assigner.issue_ids << 5268
-      assigner.activity = "Meetings"
-    elsif s.start_with?('griffin planning') || s.start_with?('griffin planing')
-      assigner.issue_ids << 5281
-      assigner.activity = "Meetings"
+    #elsif s.start_with?('griffin review') || s.start_with?('griffin retro')
+    #  assigner.issue_ids << 5268
+    #  assigner.activity = "Meetings"
+    #elsif s.start_with?('griffin planning') || s.start_with?('griffin planing')
+    #  assigner.issue_ids << 5281
+    #  assigner.activity = "Meetings"
     end
   end
 end
