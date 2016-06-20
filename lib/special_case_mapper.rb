@@ -16,8 +16,11 @@ class SpecialCaseMapper
     elsif s.start_with?('griffin planning') || s.start_with?('griffin planing')
       assigner.issue_ids << 4999
       assigner.activity = "Meetings"
-    elsif s.start_with?('wg-bin-check') || s.start_with?('griffin planing')
+    elsif s.start_with?('wg-bin-check')
       assigner.issue_ids << 5640
+      assigner.activity = "Entwicklung"
+    elsif s.start_with?('wg-hosting')
+      assigner.issue_ids << 5516
       assigner.activity = "Entwicklung"
     end
   end
