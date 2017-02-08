@@ -1,6 +1,28 @@
 require_relative 'spec_helper'
 
 describe 'Assigner' do
+  context 'named special cases' do
+    context 'weekly meetings' do
+      it 'should assign the meetings' do
+        a = Assigner.new '92345678: internal weekly meeting'
+        a.issue_ids.first.should == 1339
+        a.issue_ids.count.should == 1
+      end
+
+      it 'should assign the meetings with uppercase and additions' do
+        a = Assigner.new '92345678: Internal Weekly Meeting bla bla'
+        a.issue_ids.first.should == 1339
+        a.issue_ids.count.should == 1
+      end
+
+      it 'should assign the griffin review' do
+        a = Assigner.new '92345678: griffin review'
+        a.issue_ids.first.should == 4999
+        a.issue_ids.count.should == 1
+      end
+    end
+  end
+
   it 'should assign toggle id' do
     a = Assigner.new '92345678: Redmine Auto Time Entries : Entwicklung'
     a.toggle_id.should == 92345678

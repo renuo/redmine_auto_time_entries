@@ -1,27 +1,29 @@
+CommentTicketMapping = Struct.new('CommentTicketMapping', :start_with, :issue_id)
+
 class SpecialCaseMapper
+  def initialize
+    @mapping = [
+      CommentTicketMapping.new('internal weekly meeting', 1339),
+      CommentTicketMapping.new('weekly meeting', 1339),
+      CommentTicketMapping.new('internal meeting', 1339),
+      CommentTicketMapping.new('griffin review', 4999),
+      CommentTicketMapping.new('griffin retro', 4999),
+      CommentTicketMapping.new('griffin planning', 4999),
+      CommentTicketMapping.new('griffin planing', 4999),
+      CommentTicketMapping.new('wg-bin-check', 5640),
+      CommentTicketMapping.new('wg-hosting', 5516),
+      CommentTicketMapping.new('wg-operations', 5516),
+      CommentTicketMapping.new('operations', 5516),
+      CommentTicketMapping.new('ops', 5516),
+      CommentTicketMapping.new('office', 6634),
+      CommentTicketMapping.new('hiring', 5510),
+      CommentTicketMapping.new('employing', 5510)
+    ]
+  end
+
   def map!(assigner)
-    s = assigner.comment.downcase
-    meeting_strings = ['internal weekly meeting', 'weekly meeting', 
-    'wöchentliches meeting', 'sitzung vorbereiten', 'internes meeting']
-    
-    if meeting_strings.any?{|m| s.start_with?(m.downcase)}
-      assigner.issue_ids << 1339
-      assigner.activity = "Meetings"
-    elsif s.start_with?('internal entwicklung bills')
-      assigner.issue_ids << 831
-      assigner.activity = "Entwicklung"
-    elsif s.start_with?('griffin review') || s.start_with?('griffin retro')
-      assigner.issue_ids << 4999
-      assigner.activity = "Meetings"
-    elsif s.start_with?('griffin planning') || s.start_with?('griffin planing')
-      assigner.issue_ids << 4999
-      assigner.activity = "Meetings"
-    elsif s.start_with?('wg-bin-check')
-      assigner.issue_ids << 5640
-      assigner.activity = "Entwicklung"
-    elsif s.start_with?('wg-hosting')
-      assigner.issue_ids << 5516
-      assigner.activity = "Entwicklung"
-    end
+    comment = assigner.comment.downcase
+    match = @mapping.find { |mapping| comment.start_with?(mapping.start_with) }
+    assigner.issue_ids << match.issue_id if match
   end
 end
