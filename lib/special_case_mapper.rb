@@ -10,6 +10,7 @@ class SpecialCaseMapper
       CommentTicketMapping.new('griffin retro', 4999),
       CommentTicketMapping.new('griffin planning', 4999),
       CommentTicketMapping.new('griffin planing', 4999),
+      CommentTicketMapping.new('griffin investment', 5000),
       CommentTicketMapping.new('wg-bin-check', 5640),
       CommentTicketMapping.new('wg-hosting', 5516),
       CommentTicketMapping.new('wg-operations', 5516),
@@ -17,9 +18,10 @@ class SpecialCaseMapper
       CommentTicketMapping.new('ops', 5516),
       CommentTicketMapping.new('office', 6634),
       CommentTicketMapping.new('hiring', 5510),
-      CommentTicketMapping.new('employing', 5510)
-      CommentTicketMapping.new('wg-education', 7426)
-      CommentTicketMapping.new('education', 7426)
+      CommentTicketMapping.new('employing', 5510),
+      CommentTicketMapping.new('wg-education', 7426),
+      CommentTicketMapping.new('education', 7426),
+      CommentTicketMapping.new('event', 7000)
     ]
   end
 
