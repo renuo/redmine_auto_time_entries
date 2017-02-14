@@ -18,6 +18,8 @@ class SpecialCaseMapper
       CommentTicketMapping.new('office', 6634),
       CommentTicketMapping.new('hiring', 5510),
       CommentTicketMapping.new('employing', 5510)
+      CommentTicketMapping.new('wg-education', 7426)
+      CommentTicketMapping.new('education', 7426)
     ]
   end
 
