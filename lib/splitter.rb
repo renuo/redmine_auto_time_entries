@@ -16,6 +16,11 @@ class Splitter
   end
 
   def reassign_time_entry(time_entry, assigner)
+    if assigner.issue_ids.count > 1
+      logger.info("Reassigning time entries which were split up is currently disabled because we thing that there is a bug #{time_entry.id}: #{time_entry.inspect} with #{assigner.inspect}")
+      return
+    end
+    
     logger.info("Reassigning time entry #{time_entry.id}: #{time_entry.inspect} with #{assigner.inspect}")
 
     activity_id = activity_id_for_name(assigner.activity)
