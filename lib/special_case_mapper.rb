@@ -21,7 +21,8 @@ class SpecialCaseMapper
       CommentTicketMapping.new('employing', 5510),
       CommentTicketMapping.new('wg-education', 7426),
       CommentTicketMapping.new('education', 7426),
-      CommentTicketMapping.new('event', 7000)
+      CommentTicketMapping.new('event', 7000),
+      CommentTicketMapping.new('ipa', 7872)
     ]
   end
 
