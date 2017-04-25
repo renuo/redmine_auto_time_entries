@@ -28,8 +28,7 @@ class Assigner
   def try_extract_id
     return true if try_id_comment_split(comment)
 
-    _tracker, potential_hash_id_comment = comment.split(' ', 2)
-
+    _tracker_name, potential_hash_id_comment = comment.split(' ', 2)
     if potential_hash_id_comment.start_with?('#')
       potential_id_and_comment = potential_hash_id_comment[1..-1]
       return true if try_id_comment_split(potential_id_and_comment)
