@@ -21,7 +21,7 @@ class Splitter
     activity_id = activity_id_for_name(assigner.activity)
     logger.info("No activity found for #{time_entry.id}") if activity_id.nil?
 
-    TimeEntry.transaction do
+    redmine_adapter.transaction do
       time_entry.issue_id = assigner.issue_ids.first
       time_entry.comments = "#{assigner.toggle_id}: #{assigner.comment}"
       set_activity(activity_id, assigner, time_entry)
@@ -32,9 +32,7 @@ class Splitter
       assigner.issue_ids.drop(1).each do |current_issue_id|
         new_time_entry = redmine_adapter.duplicate_time_entry(time_entry)
         new_time_entry.issue_id = current_issue_id
-        new_time_entry.activity = TimeEntryActivity.default unless new_time_entry.valid?
-        new_time_entry.activity = TimeEntryActivity.where(name: "Entwicklung").first unless new_time_entry.valid?
-        new_time_entry.activity = TimeEntryActivity.where(parent_id: nil, project_id: nil).first unless new_time_entry.valid?
+        redmine_adapter.set_default_time_entry_activity(new_time_entry)
         new_time_entry.save!
         logger.info("Created: #{new_time_entry.id}: #{new_time_entry.inspect}")
       end

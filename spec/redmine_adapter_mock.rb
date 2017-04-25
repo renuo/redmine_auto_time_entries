@@ -33,4 +33,12 @@ class RedmineAdapterMock
     time_entries << t
     t
   end
+
+  def transaction
+    yield
+  end
+
+  def set_default_time_entry_activity(_new_time_entry)
+    # pass
+  end
 end
