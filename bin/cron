@@ -1,0 +1,2 @@
+#!/bin/bash
+/bin/bash -l -c "cd $REDMINE_HOME; RAILS_ENV=production bundle exec rake auto_time_entries:split >> redmine_auto_time_entries/log/info.log 2>&1"
