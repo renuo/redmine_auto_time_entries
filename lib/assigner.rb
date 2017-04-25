@@ -26,12 +26,27 @@ class Assigner
   end
 
   def try_extract_id
-    id, text = self.comment.split(' ', 2)
+    return true if try_id_comment_split(comment)
+
+    _tracker, potential_hash_id_comment = comment.split(' ', 2)
+
+    if potential_hash_id_comment.start_with?('#')
+      potential_id_and_comment = potential_hash_id_comment[1..-1]
+      return true if try_id_comment_split(potential_id_and_comment)
+    end
+
+    false
+  end
+
+  def try_id_comment_split(potential_id_and_comment)
+    id, comment = potential_id_and_comment.split(' ', 2)
     success = id.to_i.to_s == id
+
     if success
       self.issue_ids << id.to_i
-      self.comment = text.to_s
+      self.comment = comment.to_s
     end
+
     return success
   end
 

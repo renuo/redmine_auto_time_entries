@@ -40,6 +40,23 @@ describe 'Assigner' do
     a.issue_ids.count.should == 1
   end
 
+  it 'should assign comment with ticket when toggled from redmine' do
+    a = Assigner.new '92345678: Feature #7682 Implement toggl directly from redmine'
+    a.issue_ids.first.should == 7682
+    a.issue_ids.count.should == 1
+  end
+
+  it 'should assign comment with ticket when toggled from redmine' do
+    a = Assigner.new '92345678: Whatever #7682 Implement toggl directly from redmine'
+    a.issue_ids.first.should == 7682
+    a.issue_ids.count.should == 1
+  end
+
+  it 'should assign comment with ticket when toggled from redmine' do
+    a = Assigner.new '92345678: Not a tracker #7682 Implement toggl directly from redmine'
+    a.issue_ids.first.should == nil
+  end
+
   it 'should not assign ticket if nil' do
     a = Assigner.new '92345678: Foo bar foo bar'
     a.issue_ids.first.should == nil
@@ -54,6 +71,16 @@ describe 'Assigner' do
   it 'should assign comment with ticket' do
     a = Assigner.new '92345678: 742 Foo bar foo bar'
     a.comment.should == 'Foo bar foo bar'
+  end
+
+  it 'should assign comment with ticket when toggled from redmine' do
+    a = Assigner.new '92345678: Feature #7682 Implement toggl directly from redmine'
+    a.comment.should == 'Implement toggl directly from redmine'
+  end
+
+  it 'should assign comment with ticket when toggled from redmine' do
+    a = Assigner.new '92345678: Whatever #7682 Implement toggl directly from redmine'
+    a.comment.should == 'Implement toggl directly from redmine'
   end
 
   it 'should assign comment with multiple tickets fake' do
@@ -83,6 +110,16 @@ describe 'Assigner' do
 
   it 'should be valid if toggle_id is present' do
     a = Assigner.new '92345678: 742 Foo bar foo bar'
+    a.valid?.should == true
+  end
+
+  it 'should assign comment with ticket when toggled from redmine' do
+    a = Assigner.new '92345678: Feature #7682 Implement toggl directly from redmine'
+    a.valid?.should == true
+  end
+
+  it 'should assign comment with ticket when toggled from redmine' do
+    a = Assigner.new '92345678: Whatever #7682 Implement toggl directly from redmine'
     a.valid?.should == true
   end
 
