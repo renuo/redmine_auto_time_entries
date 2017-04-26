@@ -9,7 +9,7 @@ describe 'Splitter' do
   end
 
   it 'should not assign invalid entries' do
-    e = @tm.new(916, "Bla bla bla", 77, 2.5)
+    e = @tm.new(916,"2017-04-25T09:02:30+00: 00", "Bla bla bla", 77, 2.5)
     @redmine_adapter_mock.mock_time_entries(
         [e]
     )
@@ -24,7 +24,7 @@ describe 'Splitter' do
   end
 
   it 'should not assign unassignable entries' do
-    e = @tm.new(916, "3242134: Bla bla bla", 77, 2.5)
+    e = @tm.new(916,"2017-04-25T09:02:30+00: 00", "3242134: Bla bla bla", 77, 2.5)
     @redmine_adapter_mock.mock_time_entries(
         [e]
     )
@@ -39,7 +39,7 @@ describe 'Splitter' do
   end
 
   it 'should assign valid time entries 1' do
-    e = @tm.new(916, "3242134: 777 Bla bla bla", 77, 1.0)
+    e = @tm.new(916,"2017-04-25T09:02:30+00: 00", "3242134: 777 Bla bla bla", 77, 1.0)
     @redmine_adapter_mock.mock_time_entries(
         [e]
     )
@@ -53,7 +53,7 @@ describe 'Splitter' do
   end
 
   it 'should map the activity' do
-    e = @tm.new(916, "3242134: 777 Bla bla bla : Blub", 77, 1.0)
+    e = @tm.new(916,"2017-04-25T09:02:30+00: 00", "3242134: 777 Bla bla bla : Blub", 77, 1.0)
     @redmine_adapter_mock.mock_time_entries([e])
     @redmine_adapter_mock.activities_mapping['Blub'] = 999
     @splitter.split_time_entries
@@ -66,7 +66,7 @@ describe 'Splitter' do
   end
 
   it 'should not map an invalid activity' do
-    e = @tm.new(916, "3242134: 777 Bla bla bla : Nanana", 77, 1.0)
+    e = @tm.new(916,"2017-04-25T09:02:30+00: 00", "3242134: 777 Bla bla bla : Nanana", 77, 1.0)
     @redmine_adapter_mock.mock_time_entries([e])
     @splitter.split_time_entries
     e.issue_id.should == 777
@@ -78,7 +78,7 @@ describe 'Splitter' do
   end
 
   it 'should split the hours for multiple time entries' do
-    e = @tm.new(916, "3242134: d 777 888 999 Bla bla bla", 77, 3.0)
+    e = @tm.new(916,"2017-04-25T09:02:30+00: 00", "3242134: d 777 888 999 Bla bla bla", 77, 3.0)
     @redmine_adapter_mock.mock_time_entries(
         [e]
     )
@@ -109,7 +109,7 @@ describe 'Splitter' do
   end
 
   it 'should split the hours for multiple time entries' do
-    e = @tm.new(916, "3242134: d 777 888 Bla bla bla", 77, 3.0)
+    e = @tm.new(916,"2017-04-25T09:02:30+00: 00", "3242134: d 777 888 Bla bla bla", 77, 3.0)
     @redmine_adapter_mock.mock_time_entries(
         [e]
     )

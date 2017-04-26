@@ -1,10 +1,11 @@
 class Assigner
-  attr_accessor :raw, :toggle_id, :issue_ids, :comment, :activity
+  attr_accessor :raw, :toggle_id, :issue_ids, :comment, :activity, :spent_on
 
   def initialize(raw, special_case_mapper = SpecialCaseMapper.new)
     self.raw = self.comment = raw
     self.issue_ids = []
 
+    extract_end_hours
     extract_toggle_id
     extract_issue_ids
     extract_activity
@@ -17,6 +18,13 @@ class Assigner
     return if assignable?
 
     mapper.map!(self)
+  end
+
+  def extract_end_hours
+    self.spent_on = Date.today
+    return unless raw.include?(': :')
+    self.raw, end_date = raw.split(': :')
+    self.spent_on = Date.parse(end_date)
   end
 
   def extract_toggle_id
