@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'date'
 
 describe 'Assigner' do
   context 'named special cases' do
@@ -168,5 +169,17 @@ describe 'Assigner' do
     a = Assigner.new '92345678: d 77 33 22 Foo bar foo bar'
     a.issue_ids.count.should == 3
     expect { a.issue_id }.to raise_error(NoMethodError)
+  end
+
+  describe '#spent_on' do
+    it 'assigns spent on' do
+      a = Assigner.new '92345678: Foo bar foo bar : Entwicklung : : 2017-04-25T09:02:30+00: 00'
+      a.spent_on.should == Date.new(2017, 4, 25)
+    end
+
+    it 'does not hurt old data' do
+      a = Assigner.new '92345678: Foo bar foo bar : Entwicklung'
+      a.spent_on.should == nil
+    end
   end
 end

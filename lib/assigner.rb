@@ -1,5 +1,5 @@
 class Assigner
-  attr_accessor :raw, :toggle_id, :issue_ids, :comment, :activity
+  attr_accessor :raw, :toggle_id, :issue_ids, :comment, :activity, :spent_on
 
   def initialize(raw, special_case_mapper = SpecialCaseMapper.new)
     self.raw = self.comment = raw
@@ -8,6 +8,7 @@ class Assigner
     extract_toggle_id
     extract_issue_ids
     extract_activity
+    extract_spent_on
 
     check_special_case(special_case_mapper)
   end
@@ -62,6 +63,12 @@ class Assigner
 
     # Splits the last part after : and assigns it to activity
     self.comment, self.activity = self.comment.reverse.split(':', 2).collect(&:strip).collect(&:reverse).reverse
+  end
+
+  def extract_spent_on
+    date_regex = /(\d{4})-(\d{2})-(\d{2})T/
+    year, month, day = comment.scan(date_regex).last
+    self.spent_on = Date.new(year.to_i, month.to_i, day.to_i) if year
   end
 
   def valid?
