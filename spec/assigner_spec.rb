@@ -173,7 +173,7 @@ describe 'Assigner' do
 
   describe '#spent_on' do
     it 'assigns spent on' do
-      a = Assigner.new '92345678: Foo bar foo bar : Entwicklung : : 2017-04-25T09:02:30+00: 00'
+      a = Assigner.new '92345678: Foo bar foo bar : Entwicklung : Tag : 2017-04-25T09:02:30+00: 00'
       a.spent_on.should == Date.new(2017, 4, 25)
     end
 
