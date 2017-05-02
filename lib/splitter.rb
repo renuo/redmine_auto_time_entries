@@ -26,6 +26,7 @@ class Splitter
       time_entry.comments = "#{assigner.toggle_id}: #{assigner.comment}"
       set_activity(activity_id, assigner, time_entry)
       time_entry.hours = time_entry.hours / assigner.issue_ids.count
+      time_entry.spent_on = assigner.spent_on if assigner.spent_on
       time_entry.save!
       logger.info("Reassigned: #{time_entry.id}: #{time_entry.inspect}")
 

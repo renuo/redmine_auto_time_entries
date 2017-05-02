@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 require_relative 'redmine_adapter_mock'
+require 'date'
 
 describe 'Splitter' do
   before(:each) do
@@ -130,5 +131,22 @@ describe 'Splitter' do
     e2.activity_id.should == 77
     e2.saved?.should == true
     e2.hours.should == 1.5
+  end
+
+  it 'should assign spent on' do
+    e = @tm.new(916, "3242134: 777 Bla bla bla : Tag : 2017-04-25T09:02:30+00: 00", 77, 1.0)
+    @redmine_adapter_mock.mock_time_entries([e])
+    @splitter.split_time_entries
+    e.comments.should == "3242134: Bla bla bla : Tag : 2017-04-25T09:02:30+00: 00"
+    e.spent_on.should == Date.new(2017, 4, 25)
+  end
+
+  it 'should not assign spent on if not present' do
+    e = @tm.new(916, "3242134: 777 Bla bla bla", 77, 1.0)
+    e.spent_on = Date.new(2017, 4, 22)
+    @redmine_adapter_mock.mock_time_entries([e])
+    @splitter.split_time_entries
+    e.comments.should == "3242134: Bla bla bla"
+    e.spent_on.should == Date.new(2017, 4, 22)
   end
 end
