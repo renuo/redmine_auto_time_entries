@@ -1,1 +1,1 @@
-rspec
+bundle exec rspec
