@@ -1,6 +1,6 @@
 class RedmineAdapterMock
   #<TimeEntry id: 1815, project_id: 24, user_id: 1, issue_id: 916, hours: 0.2325, comments: "84561435: Intern - Sitzung - Nächste Sitzung vorber...", activity_id: 45, spent_on: "2013-07-30", tyear: 2013, tmonth: 7, tweek: 31, created_on: "2013-07-30 14:40:32", updated_on: "2013-07-30 14:40:32">
-  TimeEntryMock = Struct.new(:issue_id, :comments, :activity_id, :hours, :id, :saved, :spent_on) do
+  TimeEntryMock = Struct.new(:issue_id, :comments, :activity_id, :hours, :id, :saved, :spent_on, :project_id) do
     def save!
       self.saved = true
     end

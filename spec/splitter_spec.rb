@@ -53,6 +53,15 @@ describe 'Splitter' do
     @redmine_adapter_mock.time_entries.first.should === e
   end
 
+  it 'should clear the project_id when reassigning the issue' do
+    e = @tm.new(916, "3242134: 777 Bla bla bla", 77, 1.0, 123, false, Date.new(2018, 1, 2), 24)
+    @redmine_adapter_mock.mock_time_entries(
+        [e]
+    )
+    @splitter.split_time_entries
+    e.project_id.nil?.should == true
+  end
+
   it 'should map the activity' do
     e = @tm.new(916, "3242134: 777 Bla bla bla : Blub", 77, 1.0)
     @redmine_adapter_mock.mock_time_entries([e])
