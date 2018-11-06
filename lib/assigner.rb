@@ -1,7 +1,7 @@
 class Assigner
   attr_accessor :raw, :toggle_id, :issue_ids, :comment, :activity, :spent_on
 
-  def initialize(raw, special_case_mapper = SpecialCaseMapper.new)
+  def initialize(raw)
     self.raw = self.comment = raw
     self.issue_ids = []
 
@@ -9,15 +9,6 @@ class Assigner
     extract_issue_ids
     extract_activity
     extract_spent_on
-
-    check_special_case(special_case_mapper)
-  end
-
-  def check_special_case(mapper)
-    return unless valid?
-    return if assignable?
-
-    mapper.map!(self)
   end
 
   def extract_toggle_id
