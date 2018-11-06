@@ -133,19 +133,19 @@ describe 'Assigner' do
   end
 
   context 'when toggled from inside Redmine' do
-    it 'should assign comment with ticket when toggled from redmine' do
+    it 'should assign comment with feature ticket' do
       a = Assigner.new '92345678: Feature #7682 Implement toggl directly from redmine'
       a.issue_ids.first.should == 7682
       a.issue_ids.count.should == 1
     end
 
-    it 'should assign comment with ticket when toggled from redmine' do
+    it 'should assign comment with whatever ticket' do
       a = Assigner.new '92345678: Whatever #7682 Implement toggl directly from redmine'
       a.issue_ids.first.should == 7682
       a.issue_ids.count.should == 1
     end
 
-    it 'should assign comment with ticket when toggled from redmine' do
+    it 'should assign comment with unknown tracker ticket' do
       a = Assigner.new '92345678: Not a tracker #7682 Implement toggl directly from redmine'
       a.issue_ids.first.should == nil
     end
