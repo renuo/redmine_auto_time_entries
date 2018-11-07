@@ -5,6 +5,10 @@ class RedmineAdapterMock
       self.saved = true
     end
 
+    def save
+      self.saved = true
+    end
+
     def saved?
       !!saved
     end
