@@ -35,8 +35,13 @@ class Splitter
         new_time_entry = redmine_adapter.duplicate_time_entry(time_entry)
         new_time_entry.issue_id = current_issue_id
         redmine_adapter.set_default_time_entry_activity(new_time_entry)
-        new_time_entry.save!
-        logger.info("Created: #{new_time_entry.id}: #{new_time_entry.inspect}")
+
+        if new_time_entry.save
+          logger.info("Created: #{new_time_entry.id}: #{new_time_entry.inspect}")
+        else
+          logger.error("Not created:\n#{new_time_entry.errors.full_messages.join("\n")}")
+          raise ActiveRecord::Rollback, 'Call tech support!'
+        end
       end
     end
 
