@@ -34,12 +34,13 @@ class Splitter
       assigner.issue_ids.drop(1).each do |current_issue_id|
         new_time_entry = redmine_adapter.duplicate_time_entry(time_entry)
         new_time_entry.issue_id = current_issue_id
+        new_time_entry.project_id = nil # reset project id so that it's being set to issue project
         redmine_adapter.set_default_time_entry_activity(new_time_entry)
 
         if new_time_entry.save
           logger.info("Created: #{new_time_entry.id}: #{new_time_entry.inspect}")
         else
-          logger.error("Not created:\n#{new_time_entry.errors.full_messages.join("\n")}")
+          logger.error("Not created:\n#{new_time_entry.errors.inspect}")
           raise ActiveRecord::Rollback, 'Call tech support!'
         end
       end
