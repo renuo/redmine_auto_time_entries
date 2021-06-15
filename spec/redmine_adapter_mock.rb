@@ -12,6 +12,10 @@ class RedmineAdapterMock
     def saved?
       !!saved
     end
+
+    def errors
+      Struct.new(:full_messages).new
+    end
   end
 
   attr_accessor :time_entries, :activities_mapping

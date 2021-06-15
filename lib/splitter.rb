@@ -28,8 +28,11 @@ class Splitter
       time_entry.hours = time_entry.hours / assigner.issue_ids.count
       time_entry.spent_on = assigner.spent_on if assigner.spent_on
       time_entry.project_id = nil # will reassign the correct project from issue
-      time_entry.save!
-      logger.info("Reassigned: #{time_entry.id}: #{time_entry.inspect}")
+      if time_entry.save
+        logger.info("Reassigned: #{time_entry.id}: #{time_entry.inspect}")
+      else
+        logger.error("Not created: #{time_entry.id}\n#{time_entry.errors.full_messages}")
+      end
 
       assigner.issue_ids.drop(1).each do |current_issue_id|
         new_time_entry = redmine_adapter.duplicate_time_entry(time_entry)
@@ -40,7 +43,7 @@ class Splitter
         if new_time_entry.save
           logger.info("Created: #{new_time_entry.id}: #{new_time_entry.inspect}")
         else
-          logger.error("Not created:\n#{new_time_entry.errors.inspect}")
+          logger.error("Not created #{new_time_entry.id}:\n#{new_time_entry.errors.full_messages}")
           raise ActiveRecord::Rollback, 'Call tech support!'
         end
       end
