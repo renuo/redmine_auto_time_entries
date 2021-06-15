@@ -1,5 +1,5 @@
 version: v1.0
-name: Ruby
+name: redmine_auto_time_entries
 agent:
   machine:
     type: e1-standard-2
@@ -8,7 +8,7 @@ blocks:
   - name: tests
     task:
       jobs:
-        - name: bundle install
+        - name: rspec
           commands:
             - checkout
             - bundle install --path vendor/bundle
