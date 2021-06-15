@@ -1,0 +1,15 @@
+version: v1.0
+name: Ruby
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: bundle exec rspec
+    task:
+      jobs:
+        - name: bundle install
+          commands:
+            - checkout
+            - bundle install --deployment --path vendor/bundle
+            - bundle exec rspec
